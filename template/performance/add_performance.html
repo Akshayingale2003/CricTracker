@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Player Performance</title>
+{% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
+    <!-- amchart css -->
+    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
+    <!-- others css -->
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- modernizr css -->
+    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .performance-form { display: none; }
+  </style>
+</head>
+<body class="bg-light">
+
+  {% include 'header.html' %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Select Player and Performance Type</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Player Selection -->
+        <div class="mb-4">
+            <label for="playerSelect" class="form-label fw-bold">Choose Player:</label>
+            <select id="playerSelect" name="player_id" class="form-select" required>
+                <option value="">-- Select a Player --</option>
+                {% for player in players %}
+                    <option value="{{ player.id }}">{{ player.firstname }} {{player.lastname}} - ({{player.role}}) </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Performance Type -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">Choose Performance Type:</label>
+            <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="performance_type" id="batting" value="batting" required>
+                    <label class="form-check-label" for="batting">Batting</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="performance_type" id="bowling" value="bowling">
+                    <label class="form-check-label" for="bowling">Bowling</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="performance_type" id="fielding" value="fielding">
+                    <label class="form-check-label" for="fielding">Fielding</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="performance_type" id="wicketkeeper" value="wicketkeeper">
+                    <label class="form-check-label" for="wicketkeeper">Wicketkeeper</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-50">Go</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

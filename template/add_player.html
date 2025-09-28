@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Player</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
+    <!-- amchart css -->
+    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
+    <!-- others css -->
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- modernizr css -->
+    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+     .card{
+             margin-left : 20% ;
+             margin-right : 20%;
+             margin-bottom: 20px;
+         }
+
+    </style>
+    
+</head>
+<body class="bg-light">
+
+    {% include 'header.html' %}
+
+    <br>
+
+    <div class="container">
+        {% if messages %}
+          <div class="container mt-3">
+         {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+               </div>
+         {% endif %}
+
+        <h2 class="text-center">
+            <i class="fas fa-user-plus"></i> Add Player
+        </h2>
+
+        <div class="card p-4 mt-3 shadow">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input list="names" type="text" class="form-control" name="first_name" required>
+
+                </div>
+
+                <!-- Last Name -->
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" required>
+                </div>
+
+                <!-- Role (Dropdown Choices) -->
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" name="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="Batsman">Batter</option>
+                        <option value="Bowler">Bowler</option>
+                        <option value="All-Rounder">All-Rounder</option>
+                        <option value="Wicket-Keeper">Wicket-Keeper</option>
+                    </select>
+                </div>
+
+                <!-- Team (Dropdown) -->
+                <div class="mb-3">
+                    <label class="form-label">Team</label>
+                    <select class="form-select" name="team" required>
+                        <option value="" disabled selected>Select Team</option>
+                        {% for team in teams %}
+                        <option value="{{ team.id }}">{{team.name}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Batting Style</label>
+                    <select class="form-select" name="bat_style" required>
+                        <option value="" disabled selected>Batting Style</option>
+                        <option value="left-hande">left-handed</option>
+                        <option value="right-handed">right-handed</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Balling Style</label>
+                    <select class="form-select" name="ball_style" required>
+                        <option value="" disabled selected>Balling Style</option>
+                        <option value="left-arm-spin">left-arm-spin</option>
+                        <option value="right-arm-spin">right-arm-spin</option>
+                        <option value="left-arm-pacer">lef-arm-pacer</option>
+                        <option value="right-arm-pacer">right-arm-pacer</option>
+                    </select>
+                </div>
+
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-user-check"></i> Add Player
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</html>

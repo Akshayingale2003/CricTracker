@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">CricTracker</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+
+        {% if user.is_authenticated %}
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard' %}">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'my_dashboard' %}">My Dashboard</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'add_performance' %}">Add Performance</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'view_performance' %}">view Performance</a>
+        </li>
+        
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="moreMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hello {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreMenu">
+            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
+            <li><a class="dropdown-item" href="{% url 'my_teams' %}">My Teams</a></li>
+            <li><a class="dropdown-item" href="{% url 'my_players' %}">My Players</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'Logout' %}">Logout</a></li>
+          </ul>
+        </li>
+
+
+          {% else %}
+        <!-- If not logged in -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+
+      
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  setTimeout(function() {
+    let alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+
+      alert.classList.remove('show'); 
+      setTimeout(() => alert.remove(), 150); 
+    });
+  }, 3000);
+</script>

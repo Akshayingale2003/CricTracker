@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ player.firstname }} {{ player.lastname }} - Player Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .section-title {
+      margin: 30px 0 20px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 24px;
+      color: #343a40;
+    }
+    .stat-box {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0d6efd;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+<div class="container my-5">
+
+  <!-- Player Info -->
+  <div class="d-flex align-items-center mb-5 p-4 bg-white shadow-sm rounded">
+    <img src="{% static 'images/avatar.jpg' %}" alt="Player Photo"
+         style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-right: 50px; margin-left: 5%;">
+    <div style="margin-left:10%" >
+
+      <h1>{{ player.firstname|capfirst }} {{ player.lastname|capfirst }}</h1>
+      <h5><strong>Role : </strong> {{ player.role|capfirst }}</h5>
+      <h5><strong>Batting Style : </strong> {{ player.batting_style }}</h5>
+      <h5><strong>Bowling Style : </strong> {{ player.balling_style }}</h5>
+      <h5><strong>Team : </strong> {{ player.team.name }}</h5>
+    </div>
+  </div>
+
+  <!-- Batting Stats -->
+   {% if batting_performance.played > 0 %}
+  <h4 class="section-title">Batting Stats</h4>
+  <div class="row g-3">
+    <div class="col-md-3"><div class="stat-box">Matches<div class="stat-number">{{ batting_performance.played }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Runs<div class="stat-number">{{ batting_performance.runs }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Balls<div class="stat-number">{{ batting_performance.balls }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Strike Rate<div class="stat-number">{{ batting_performance.strike_rate }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">singles<div class="stat-number">{{ batting_performance.singles }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">doubles<div class="stat-number">{{ batting_performance.doubles }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">tripples<div class="stat-number">{{ batting_performance.tripples }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Fours<div class="stat-number">{{ batting_performance.fours }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Sixes<div class="stat-number">{{ batting_performance.sixes }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Boundary Percent<div class="stat-number">{{ batting_performance.boundary_percent }}%</div></div></div>
+    <div class="col-md-3"><div class="stat-box">High Score<div class="stat-number">{{ batting_performance.high_score }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Average<div class="stat-number">{{ batting_performance.average }}</div></div></div>
+
+  </div>
+{% endif %}
+
+
+  <!-- Bowling Stats -->
+   {% if balling_performance.played > 0 %}
+  <h4 class="section-title">Bowling Stats</h4>
+  <div class="row g-3">
+    <div class="col-md-3"><div class="stat-box">Matches<div class="stat-number">{{ balling_performance.played }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Wickets<div class="stat-number">{{ balling_performance.wickets }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Overs<div class="stat-number">{{ balling_performance.overs }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Economy<div class="stat-number">{{ balling_performance.economy|floatformat:2 }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">3W Hauls<div class="stat-number">{{ balling_performance.threewickethall }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">5W Hauls<div class="stat-number">{{ balling_performance.fivewickethall }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Hattricks<div class="stat-number">{{ balling_performance.hattricks }}</div></div></div>
+  </div>
+{% endif %}
+  <!-- Fielding Stats -->
+   {% if fielding_performance.played > 0 %}
+  <h4 class="section-title">Fielding Stats</h4>
+  <div class="row g-3">
+    <div class="col-md-3"><div class="stat-box">Matches<div class="stat-number">{{ fielding_performance.played }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Catches<div class="stat-number">{{ fielding_performance.catches }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Dropped<div class="stat-number">{{ fielding_performance.dropped }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Run Outs<div class="stat-number">{{ fielding_performance.runouts }}</div></div></div>
+  </div>
+{% endif %}
+  <!-- Wicketkeeping Stats -->
+   {% if wicketkeeping_performance.played > 0 %}
+  <h4 class="section-title">Wicketkeeping Stats</h4>
+  <div class="row g-3">
+    <div class="col-md-3"><div class="stat-box">Matches<div class="stat-number">{{ wicketkeeping_performance.played }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Catches<div class="stat-number">{{ wicketkeeping_performance.catches }}</div></div></div>
+    <div class="col-md-3"><div class="stat-box">Stumpings<div class="stat-number">{{ wicketkeeping_performance.stumpings }}</div></div></div>
+  </div>
+
+</div>
+{% endif %}
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</html>
