@@ -1,94 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>View Player Performance</title>
-{% load static %}
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <!-- modernizr css -->
-    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Performance | CricTracker</title>
+    {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .performance-form { display: none; }
-  </style>
+        .selection-card {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Custom Tile Radio Buttons */
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .performance-tile {
+            position: relative;
+        }
+
+        .performance-tile input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .tile-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .tile-content i {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+
+        .tile-content span {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        /* Selection Effects */
+        .performance-tile input[type="radio"]:checked + .tile-content {
+            border-color: #1e3c72;
+            background-color: rgba(30, 60, 114, 0.05);
+        }
+
+        .performance-tile input[type="radio"]:checked + .tile-content i {
+            color: #1e3c72;
+        }
+
+        .performance-tile input[type="radio"]:checked + .tile-content span {
+            color: #1e3c72;
+        }
+
+        .tile-content:hover {
+            border-color: #2a5298;
+            transform: translateY(-3px);
+        }
+
+        .go-btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border: none;
+            padding: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .go-btn:hover {
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-  {% include 'header.html' %}
+    {% include 'header.html' %}
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Select Player and Performance Type</h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="selection-card">
+                    <h2 class="section-title">Performance Analytics</h2>
+                    <p class="text-center text-muted mb-5">Select a player and the specific performance category you wish to review.</p>
 
-    <form method="POST">
-        {% csrf_token %}
+                    <form method="POST">
+                        {% csrf_token %}
 
-        <!-- Player Selection -->
-        <div class="mb-4">
-            <label for="playerSelect" class="form-label fw-bold">Choose Player:</label>
-            <select id="playerSelect" name="player_id" class="form-select" required>
-                <option value="">-- Select a Player --</option>
-                {% for player in players %}
-                    <option value="{{ player.id }}">{{ player.firstname }} {{player.lastname}} - ({{player.role}})</option>
-                {% endfor %}
-            </select>
-        </div>
+                        <div class="mb-5">
+                            <label for="playerSelect" class="form-label"><i class="fas fa-user-circle me-2"></i>Choose Player</label>
+                            <select id="playerSelect" name="player_id" class="form-select form-select-lg shadow-sm" style="border-radius: 12px;" required>
+                                <option value="" disabled selected>Search or select player...</option>
+                                {% for player in players %}
+                                    <option value="{{ player.id }}">{{ player.firstname }} {{player.lastname}} — {{player.role}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-        <!-- Performance Type -->
-        <div class="mb-4">
-            <label class="form-label fw-bold">Choose Performance Type:</label>
-            <div class="d-flex flex-wrap gap-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="performance_type" id="batting" value="batting" required>
-                    <label class="form-check-label" for="batting">Batting</label>
-                </div>
+                        <div class="mb-5">
+                            <label class="form-label"><i class="fas fa-chart-line me-2"></i>Category</label>
+                            <div class="performance-grid">
+                                <label class="performance-tile">
+                                    <input type="radio" name="performance_type" value="batting" required>
+                                    <div class="tile-content">
+                                        <i class="fas fa-baseball-bat-ball"></i>
+                                        <span>Batting</span>
+                                    </div>
+                                </label>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="performance_type" id="bowling" value="bowling">
-                    <label class="form-check-label" for="bowling">Bowling</label>
-                </div>
+                                <label class="performance-tile">
+                                    <input type="radio" name="performance_type" value="bowling">
+                                    <div class="tile-content">
+                                        <i class="fas fa-baseball-ball"></i>
+                                        <span>Bowling</span>
+                                    </div>
+                                </label>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="performance_type" id="fielding" value="fielding">
-                    <label class="form-check-label" for="fielding">Fielding</label>
-                </div>
+                                <label class="performance-tile">
+                                    <input type="radio" name="performance_type" value="fielding">
+                                    <div class="tile-content">
+                                        <i class="fas fa-hand-paper"></i>
+                                        <span>Fielding</span>
+                                    </div>
+                                </label>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="performance_type" id="wicketkeeper" value="wicketkeeper">
-                    <label class="form-check-label" for="wicketkeeper">Wicketkeeper</label>
+                                <label class="performance-tile">
+                                    <input type="radio" name="performance_type" value="wicketkeeper">
+                                    <div class="tile-content">
+                                        <i class="fas fa-mitten"></i>
+                                        <span>Keeper</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary go-btn w-50">
+                                View Statistics <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Submit -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary w-50">Go</button>
-        </div>
-    </form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

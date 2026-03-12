@@ -1,237 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>User Dashboard</title>
-{% load static %}
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <!-- modernizr css -->
-    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | CricTracker</title>
+    {% load static %}
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #1a237e;
+            --accent-blue: #0288d1;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+        }
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Inter', sans-serif;
+            color: #333;
+        }
+
+        /* Hero Statistics Section */
+        .stat-card {
+            border: none;
+            border-radius: 15px;
+            background: var(--glass-bg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+        }
+
+        .display-6 {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        /* Performance Tables Styling */
+        .performance-section {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            padding: 20px 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+        }
+
+        .section-header i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .bg-batting { background: linear-gradient(45deg, #ffa000, #ffc107); }
+        .bg-bowling { background: linear-gradient(45deg, #388e3c, #4caf50); }
+        .bg-fielding { background: linear-gradient(45deg, #d32f2f, #f44336); }
+        .bg-keeper { background: linear-gradient(45deg, #1976d2, #2196f3); }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+            border-top: none;
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(2, 136, 209, 0.05);
+        }
+
+        .player-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .badge-team {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
 {% include 'header.html' %}
-  <!-- Dashboard Content -->
-  <div class="container mt-5">
-    <h2 class="mb-4">Welcome, {{ user.first_name }}!</h2>
+
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="fw-bold">Welcome back, <span class="text-primary">{{ user.first_name }}</span>!</h2>
+            <p class="text-muted">Here is your current team and player performance summary.</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card stat-card text-center p-3">
+                <div class="card-body">
+                    <i class="fa-solid fa-users-rectangle stat-icon"></i>
+                    <h6 class="text-muted">Teams</h6>
+                    <p class="display-6">{{total_teams|default:0}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card text-center p-3">
+                <div class="card-body">
+                    <i class="fa-solid fa-user-group stat-icon text-success"></i>
+                    <h6 class="text-muted">Players</h6>
+                    <p class="display-6">{{total_players|default:0}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card text-center p-3">
+                <div class="card-body">
+                    <i class="fa-solid fa-meteor stat-icon text-warning"></i>
+                    <h6 class="text-muted">Total Sixes</h6>
+                    <p class="display-6">{{sixes|default:0}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card text-center p-3">
+                <div class="card-body">
+                    <i class="fa-solid fa-baseball stat-icon text-danger"></i>
+                    <h6 class="text-muted">Total Fours</h6>
+                    <p class="display-6">{{fours|default:0}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="performance-section">
+        <div class="section-header bg-batting">
+            <i class="fa-solid fa-bat-ball"></i> Batting Performance
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th class="text-start">Player</th>
+                        <th>Team</th>
+                        <th>Runs</th>
+                        <th>Balls</th>
+                        <th>4s</th>
+                        <th>6s</th>
+                        <th>Strike Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in batting %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td class="text-start player-name">{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
+                        <td><span class="badge-team">{{i.player.team|capfirst}}</span></td>
+                        <td class="fw-bold">{{i.runs}}</td>
+                        <td>{{i.balls}}</td>
+                        <td>{{i.fours}}</td>
+                        <td>{{i.sixes}}</td>
+                        <td><span class="text-primary fw-bold">{{i.strike_rate|floatformat:2}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="performance-section">
+        <div class="section-header bg-bowling">
+            <i class="fa-solid fa-baseball-ball"></i> Bowling Performance
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>S.N</th>
+                        <th class="text-start">Player</th>
+                        <th>Team</th>
+                        <th>Wickets</th>
+                        <th>Balls</th>
+                        <th>Runs Conceded</th>
+                        <th>Economy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in balling %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td class="text-start player-name">{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
+                        <td><span class="badge-team">{{i.player.team|capfirst}}</span></td>
+                        <td class="text-success fw-bold">{{i.wickets}}</td>
+                        <td>{{i.balls}}</td>
+                        <td>{{i.runs}}</td>
+                        <td><span class="badge bg-light text-dark">{{i.economy_rate|floatformat:2}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <div class="row">
-       <div class="row g-4 mb-4">
-      <div class="col-md-3">
-        <div class="card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Registered Teams</h5>
-            <p class="display-6 fw-bold">{{total_teams|default:0}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Players</h5>
-            <p class="display-6 fw-bold">{{total_players|default:0}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Total Sixes</h5>
-            <p class="display-6 fw-bold">{{sixes|default:0}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Total Fours</h5>
-            <p class="display-6 fw-bold">{{fours|default:0}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-<div class="col-12 mb-4">
-  <div class="card" >
-    <div class="card-body ">
-			<div class="d-sm-flex justify-content-between align-items-center">
-    <div class="trd-history-tabs">
-      <ul class="nav" role="tablist">
-         <li>
-           <a>Recent Performances</a>
-         </li>
-        </ul>
-      </div>
-    </div>
-
-      <div class="single-table">
-        <div class="card-header bg-warning">
-                Batting Performance
+        <div class="col-lg-7">
+            <div class="performance-section">
+                <div class="section-header bg-fielding">
+                    <i class="fa-solid fa-hand-back-fist"></i> Fielding
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Catches</th>
+                                <th>Run Outs</th>
+                                <th>Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in fielding %}
+                            <tr>
+                                <td class="text-start player-name ps-3">{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
+                                <td>{{i.catches}}</td>
+                                <td>{{i.runouts}}</td>
+                                <td>{{i.catching_rate|floatformat:1}}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        <div class="table-responsive">
-        <table class="table table-hover table-bordered table-striped  text-center ">
-          <thead class="text-uppercase table-dark"> 
-            <tr>
-              <th>S.N</th>
-              <th>player</th>
-              <th>Team</th>
-              <th>runs</th>
-              <th>balls</th>
-              <th>Fours</th>
-              <th>Sixes</th>
-              <th>strike rate</th>
-            </tr>  
-          </thead>
-      <tbody>
-   {% for i in batting %}
-    <tr>
-        <td> <b>{{forloop.counter}}</b></td>
-        <td>{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
-        <td>{{i.player.team|capfirst}}</td>
-        <td>{{i.runs}}</td>
-        <td>{{i.balls}}</td>
-        <td>{{i.fours}}</td>
-        <td>{{i.sixes}}</td>
-        <td>{{i.strike_rate|floatformat:2}}</td> 
-        </tr>
-      {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-<br>
-  <div class="single-table">
-        <div class="card-header bg-success">
-                Balling Performance
+        </div>
+        
+        <div class="col-lg-5">
+            <div class="performance-section">
+                <div class="section-header bg-keeper">
+                    <i class="fa-solid fa-mitten"></i> Wicketkeeping
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Catches</th>
+                                <th>Stumpings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in wicketkeeping %}
+                            <tr>
+                                <td class="text-start player-name ps-3">{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
+                                <td>{{i.catches}}</td>
+                                <td class="fw-bold">{{i.stumppings}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        <div class="table-responsive">
-        <table class="table table-hover table-bordered table-striped  text-center ">
-          <thead class="text-uppercase table-dark"> 
-            <tr>
-              <th>S.N</th>
-              <th>player</th>
-              <th>Team</th>
-              <th>Wickets</th>
-              <th>balls</th>
-              <th>runs conceded</th>
-              <th>extra</th>
-              <th>economy</th>
-            </tr>  
-          </thead>
-      <tbody>
-   {% for i in balling %}
-    <tr>
-        <td> <b>{{forloop.counter}}</b></td>
-        <td>{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
-        <td>{{i.player.team|capfirst}}</td>
-        <td>{{i.wickets}}</td>
-        <td>{{i.balls}}</td>
-        <td>{{i.runs}}</td>
-        <td>{{i.extras}}</td>
-        <td>{{i.economy_rate|floatformat:2}}</td> 
-        </tr>
-      {% endfor %}
-        </tbody>
-      </table>
+        </div>
     </div>
-  </div>
-
-<br>
-  <div class="single-table">
-        <div class="card-header bg-danger">
-                Fielding Performance
-            </div>
-        <div class="table-responsive">
-        <table class="table table-hover table-bordered table-striped  text-center ">
-          <thead class="text-uppercase table-dark"> 
-            <tr>
-              <th>S.N</th>
-              <th>player</th>
-              <th>Team</th>
-              <th>catches</th>
-              <th>dropped</th>
-              <th>catching rate</th>
-              <th>runouts</th>
-            </tr>  
-          </thead>
-      <tbody>
-   {% for i in fielding %}
-    <tr>
-        <td> <b>{{forloop.counter}}</b></td>
-        <td>{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
-        <td>{{i.player.team|capfirst}}</td>
-        <td>{{i.catches}}</td>
-        <td>{{i.dropped}}</td>
-        <td>{{i.catching_rate|floatformat:2}}</td>
-        <td>{{i.runouts}}</td>
-        </tr>
-      {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-<br>
-
-  <div class="single-table">
-        <div class="card-header bg-info">
-                WicketKeeper Performance
-            </div>
-        <div class="table-responsive">
-        <table class="table table-hover table-bordered table-striped  text-center ">
-          <thead class="text-uppercase table-dark"> 
-            <tr>
-              <th>S.N</th>
-              <th>player</th>
-              <th>Team</th>
-              <th>catches</th>
-              <th>stumppings</th>
-            </tr>  
-          </thead>
-      <tbody>
-   {% for i in wicketkeeping %}
-    <tr>
-        <td> <b>{{forloop.counter}}</b></td>
-        <td>{{i.player.firstname|capfirst}} {{i.player.lastname|capfirst}}</td>
-        <td>{{i.player.team|capfirst}}</td>
-        <td>{{i.catches}}</td>
-        <td>{{i.stumppings}}</td>
-        </tr>
-      {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-      <br> 
-    </div>
-   </div>
-  </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

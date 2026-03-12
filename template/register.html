@@ -1,109 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register</title>
-   {% load static %}
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <!-- modernizr css -->
-    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | CricTracker</title>
+    {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        .register-card {
-            margin-left: 10%;
-            margin-right: 10%;
-            width: 100%;
-            max-width: 500px;
-            height: 100%;
-            padding: 30px;
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
         }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px; /* Slightly wider than login */
+            padding: 40px;
+        }
+
+        .brand-logo {
+            font-size: 2rem;
+            color: #1e3c72;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .register-title {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .input-group-text {
+            background-color: transparent;
+            border-right: none;
+            color: #2a5298;
+        }
+
+        .form-control {
+            border-left: none;
+            padding: 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+        .input-group:focus-within .input-group-text,
+        .input-group:focus-within .form-control {
+            border-color: #2a5298;
+        }
+
         .register-btn {
-            font-size: 14px;
-            padding: 6px 15px;
-            width: 50%;
-            margin: 0 auto;
+            background: linear-gradient(to right, #11998e, #38ef7d); /* Fresh Green for 'New' */
+            border: none;
+            padding: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .register-btn:hover {
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            color: white;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* Group headings for longer forms */
+        .form-section-head {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #adb5bd;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
-{% include 'header.html' %}
-
-      <div class="container py-5">
+    <div class="register-card">
+        <div class="brand-logo">CricTracker</div>
+        <p class="register-title">Create your account</p>
         
-        {% if messages %}
-          <div class="container mt-3">
-         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-               </div>
-         {% endif %}
-
-        <div class="row justify-content-center">
-            <div class="col-md-6 d-flex align-items-center">
-                <div class="card shadow-sm register-card text-center">
-                    <div class="card-header bg-primary text-white">
-                        <h2>Register</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-section-head">Personal Information</div>
+            
+            <div class="row g-3">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        <input type="text" class="form-control" name="first_name" placeholder="John" required>
                     </div>
-                    <div class="card-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="mb-3 text-start">
-                                <label for="username" class="form-label">First name</label>
-                                <input type="text" class="form-control" id="first_name" placeholder="Enter firstname" name="first_name">
-                            </div>
-
-                            <div class="mb-3 text-start">
-                                <label for="username" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="last_name" placeholder="Enter lastname" name="last_name">
-                            </div>
-
-                            <div class="mb-3 text-start">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
-                            </div>
-                            <div class="mb-3 text-start">
-                                <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email">
-                            </div>
-                            <div class="mb-3 text-start">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password">
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary register-btn">Register</button>
-                            </div>
-                            <br>
-                            <a href="{% url 'index' %}">already a user?</a>
-                            
-                        </form>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        <input type="text" class="form-control" name="last_name" placeholder="Doe" required>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="form-section-head">Account Security</div>
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" name="username" placeholder="Choose a unique username" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" name="email" placeholder="email@example.com" required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    <input type="password" class="form-control" name="password" placeholder="Create a strong password" required>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn register-btn">
+                    Create Account <i class="fas fa-user-plus ms-2"></i>
+                </button>
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="{% url 'index' %}">Sign In</a>
+            </div>
+        </form>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

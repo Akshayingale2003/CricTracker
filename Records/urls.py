@@ -29,7 +29,12 @@ urlpatterns = [
    path('player_balling_performance/<int:id>',views.player_balling_performance,name='player_balling_performance'),
    path('player_fielding_performance/<int:id>',views.player_fielding_performance,name='player_fielding_performance'),
    path('player_wicketkeeping_performance/<int:id>',views.player_wicketkeeping_performance,name='player_wicketkeeping_performance'),
-   path('player_stats/<int:id>',views.player_stats,name='player_stats')
+   path('player_stats/<int:id>',views.player_stats,name='player_stats'),
+   path('admin/view_players',views.view_players , name='view_players'),
+   path('admin/view_teams', views.view_teams , name='view_teams'),
+   path('admin/view_users', views.view_users , name='view_users'),
+   path('delete_user/<int:id>' ,views.delete_user , name= 'delete_user'),
+   
  
 
 ]

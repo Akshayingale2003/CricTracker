@@ -1,92 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>User Profile</title>
-  {% load static %}
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <!-- modernizr css -->
-    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | CricTracker</title>
+    {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .profile-container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .profile-card {
+            border: none;
+            border-radius: 20px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .profile-avatar-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 4px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-right: none;
+            color: #2a5298;
+        }
+
+        .form-control {
+            border-left: none;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #2a5298;
+            background-color: #fff;
+        }
+        
+        .input-group:focus-within .form-control {
+            border-color: #2a5298;
+        }
+
+        .save-btn {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            border: none;
+            padding: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        /* Alert Styling */
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-  {% include 'header.html' %}
+    {% include 'header.html' %}
 
-  <div class="container mt-5"> 
-       {% if messages %}
-          <div class="container mt-3">
-         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-               </div>
-         {% endif %}
-
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h3 class="card-title text-center mb-4">User Profile</h3>
-
-            <form method="POST">
-              {% csrf_token %}
-              
-              <div class="mb-3">
-                <label for="id_first_name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}">
-              </div>
-
-              <div class="mb-3">
-                <label for="id_last_name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ user.last_name }}">
-              </div>
-
-              <div class="mb-3">
-                <label for="id_username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="id_username" name="username" value="{{ user.username }}">
-              </div>
-
-              <div class="mb-3">
-                <label for="id_email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="id_email" name="email" value="{{ user.email }}">
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100">Save</button>
-            </form>
-
-          </div>
+    <div class="container profile-container">
+        {% if messages %}
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-info-circle me-2"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+        {% endif %}
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-circle">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="mb-1">{{ user.first_name }} {{ user.last_name }}</h3>
+                        <p class="opacity-75 mb-0">@{{ user.username }}</p>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5">
+                        <form method="POST">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label for="id_first_name" class="form-label">First Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                        <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user.first_name }}" placeholder="First Name">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <label for="id_last_name" class="form-label">Last Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                        <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ user.last_name }}" placeholder="Last Name">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="id_username" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                    <input type="text" class="form-control" id="id_username" name="username" value="{{ user.username }}" placeholder="Username">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="id_email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="id_email" name="email" value="{{ user.email }}" placeholder="Email Address">
+                                </div>
+                            </div>
+
+                            <div class="d-grid mt-2">
+                                <button type="submit" class="btn btn-primary save-btn">
+                                    Update Profile <i class="fas fa-check-circle ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <a href="{% url 'change_password' %}" class="text-decoration-none small fw-bold text-muted">
+                                <i class="fas fa-key me-1"></i> Change Security Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

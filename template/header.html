@@ -1,71 +1,64 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);">
   <div class="container">
-    <a class="navbar-brand" href="#">CricTracker</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <a class="navbar-brand fw-bold" href="#"><i class="fas fa-trophy me-2"></i>CricTracker</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-
-
+      <ul class="navbar-nav ms-auto align-items-center">
         {% if user.is_authenticated %}
-        <!-- Home -->
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'dashboard' %}">Home</a>
+          <a class="nav-link px-3" href="{% url 'dashboard' %}"><i class="fas fa-home me-1"></i> Home</a>
         </li>
 
+        {% if user.is_staff %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'my_dashboard' %}">My Dashboard</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'add_performance' %}">Add Performance</a>
+          <a class="nav-link px-3" href="{% url 'view_users' %}">Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'view_performance' %}">view Performance</a>
-        </li>
-        
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="moreMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hello {{ user.username }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreMenu">
-            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-            <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
-            <li><a class="dropdown-item" href="{% url 'my_teams' %}">My Teams</a></li>
-            <li><a class="dropdown-item" href="{% url 'my_players' %}">My Players</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'Logout' %}">Logout</a></li>
-          </ul>
-        </li>
-
-
-          {% else %}
-        <!-- If not logged in -->
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">Login</a>
+          <a class="nav-link px-3" href="{% url 'view_teams' %}">Teams</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
+          <a class="nav-link px-3" href="{% url 'view_players' %}">Players</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link px-3" href="{% url 'my_dashboard' %}">My Stats</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link px-3" href="{% url 'view_performance' %}">Performances</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3" href="{% url 'add_performance' %}">Add Performances</a>
         </li>
         {% endif %}
 
-      
-        
+        <li class="nav-item dropdown ms-lg-3">
+          <a class="nav-link dropdown-toggle btn btn-light text-dark px-3 py-1 mt-2 mt-lg-0 rounded-pill" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user-circle me-1"></i> {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+            <li><a class="dropdown-item py-2" href="{% url 'profile' %}"><i class="fas fa-id-badge me-2"></i>Profile</a></li>
+            <li><a class="dropdown-item py-2" href="{% url 'change_password' %}"><i class="fas fa-key me-2"></i>Security</a></li>
+            {% if not user.is_staff %}
+            <li><a class="dropdown-item py-2" href="{% url 'my_teams' %}"><i class="fas fa-users me-2"></i>My Teams</a></li>
+            <li><a class="dropdown-item py-2" href="{% url 'my_players' %}"><i class="fas fa-running me-2"></i>My Players</a></li>
+            {% endif %}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item py-2 text-danger" href="{% url 'Logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+          </ul>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+          <a class="btn btn-outline-light rounded-pill px-4 me-2" href="{% url 'index' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-light rounded-pill px-4" href="{% url 'register' %}">Join Now</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
-
-<script>
-  setTimeout(function() {
-    let alerts = document.querySelectorAll('.alert');
-    alerts.forEach(function(alert) {
-
-      alert.classList.remove('show'); 
-      setTimeout(() => alert.remove(), 150); 
-    });
-  }, 3000);
-</script>

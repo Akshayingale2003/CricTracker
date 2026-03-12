@@ -13,8 +13,9 @@ def index(request):
         password = request.POST['password']
         user = authenticate(request , username=username , password = password)
         if  user is not None:
-            login(request , user)
-            return redirect('/')
+            # if not user.is_staff:
+               login(request , user)
+               return redirect('/')
         else :
             messages.error(request,'invalid credentials')
     return render(request,'index.html')
@@ -199,8 +200,11 @@ def my_players(request):
 
 
 def edit_player(request,id):
-    user = User.objects.get(id = request.user.id)
-    profile = Profile.objects.get(user = user)
+    user = None
+    profile = None
+    if not request.user.is_staff:
+        user = User.objects.get(id = request.user.id)
+        profile = Profile.objects.get(user = user)
     teams = Team.objects.filter(created_by = profile)
     player = Player.objects.get(id = id)
     
@@ -221,12 +225,15 @@ def edit_player(request,id):
         'player' : player,
         'teams': teams
     }
+
     return render(request , 'editplayer.html' , context)
 
 def delete_player(request ,id):
     player = Player.objects.get(id= id)
     player.delete()
     messages.success(request, 'player deleted')
+    if request.user.is_staff:
+        return redirect('view_players')
     return redirect('my_players')
 
 
@@ -537,3 +544,24 @@ def player_stats(request,id):
     }
     return render(request,'stats/player_stats.html',context)
 
+
+def view_teams(request):
+    teams = Team.objects.all()
+    context = {"teams" : teams}
+    return render(request, 'admin/view_teams.html',context)
+
+def view_players(request):
+    players = Player.objects.all()
+    context = {"players" : players}
+    return render(request, 'admin/view_players.html',context)
+
+def view_users(request):
+    users = User.objects.all()
+    context = {"users" : users}
+    return render(request, 'admin/view_users.html',context)
+
+def delete_user(request,id):
+    user = User.objects.get(id = id)
+    user.delete()
+    messages.success(request,'user deleted successfully ..')
+    return redirect('/admin/view_users')

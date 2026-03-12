@@ -1,83 +1,138 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ player.firstname }} {{ player.lastname }} - Wicketkeeper Performances</title>
-   <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="{% static 'https://www.amcharts.com/lib/3/plugins/export/export.css' %}" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <!-- modernizr css -->
-    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ player.firstname }} {{ player.lastname }} - Keeper Analytics | CricTracker</title>
+    {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Inter', sans-serif;
+        }
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        .page-title {
+            font-weight: 800;
+            color: #1565c0;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .table thead {
+            background-color: #f8f9fa;
+        }
+
+        .table thead th {
+            border: none;
+            color: #6c757d;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .stat-highlight {
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .text-catches { color: #1976d2; }
+        .text-stumpings { color: #f57c00; }
+
+        /* Empty State */
+        .noperformance-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .noperformance-card i {
+            color: #cbd5e0;
+            margin-bottom: 20px;
+        }
+
+        .header-accent {
+            border-bottom: 4px solid #1565c0;
+            width: 60px;
+            margin: 0 auto 20px;
+        }
+    </style>
 </head>
-<body style="background-color: #f8f9fa;">
-{% include 'header.html' %}
+<body class="bg-light">
 
-<div class="container my-5">
-  <h2 class="text-center mb-4">
-    Wicketkeeper Performances – {{ player.firstname|capfirst }} {{ player.lastname|capfirst }}
-  </h2>
+    {% include 'header.html' %}
 
-  {% if performances %}
-    <div class="table-responsive shadow-sm">
-      <table class="table table-bordered table-striped text-center align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Match</th>
-            <th>Catches</th>
-            <th>Stumpings</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for perf in performances %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ perf.catches }}</td>
-              <td>{{ perf.stumppings }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="container py-5">
+        <h2 class="text-center page-title">
+            <i class="fas fa-mitten me-2"></i> Keeper Match Analysis
+        </h2>
+        <div class="header-accent"></div>
+        <p class="text-center text-muted mb-5">Match-by-match breakdown for <strong>{{ player.firstname|capfirst }} {{ player.lastname|capfirst }}</strong></p>
+
+        {% if performances %}
+        <div class="table-container shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>Match</th>
+                            <th>Catches</th>
+                            <th>Stumpings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for perf in performances %}
+                        <tr>
+                            <td><span class="badge bg-light text-dark px-3 py-2 border">Game {{ forloop.counter }}</span></td>
+                            <td>
+                                <span class="stat-highlight text-catches">
+                                    <i class="fas fa-hands me-1 small opacity-50"></i> {{ perf.catches }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="stat-highlight text-stumpings">
+                                    <i class="fas fa-bolt me-1 small opacity-50"></i> {{ perf.stumppings }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="noperformance-card">
+            <i class="fas fa-folder-open fa-4x d-block"></i>
+            <h4 class="text-dark">No Keeping Stats Found</h4>
+            <p class="text-muted">No wicketkeeper performances have been recorded for this player yet.</p>
+            <a href="{% url 'add_performance' %}" class="btn btn-primary rounded-pill px-4 mt-3 shadow-sm" style="background-color: #1565c0; border: none;">
+                <i class="fas fa-plus me-2"></i>Record First Dismissal
+            </a>
+        </div>
+        {% endif %}
     </div>
-  {% else %}
-    <div style="
-      background-color: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffeeba;
-      padding: 15px;
-      border-radius: 6px;
-      text-align: center;
-      font-size: 16px;
-      margin-top: 20px;">
-      No wicketkeeper performances recorded for this player yet.
-    </div>
-  {% endif %}
-</div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </html>
